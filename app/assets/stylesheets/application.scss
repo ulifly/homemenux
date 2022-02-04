@@ -13,4 +13,8 @@
  *= require_tree .
  *= require_self
  */
+
+$link: #000000;
+$link-hover: #00FF00;
 @import "bulma";
+@import "functions";
