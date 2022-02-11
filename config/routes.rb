@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :plates
     root 'menu#index'
     
   devise_for :users, controllers: {
