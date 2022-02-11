@@ -1,9 +1,10 @@
 class PlatesController < ApplicationController
   before_action :set_plate, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: [:index, :show]
 
   # GET /plates or /plates.json
   def index
-    @plates = Plate.all
+    @plates = Plate.all.order("created_at desc")
   end
 
   # GET /plates/1 or /plates/1.json
@@ -12,7 +13,7 @@ class PlatesController < ApplicationController
 
   # GET /plates/new
   def new
-    @plate = Plate.new
+    @plate = current_user.plates.build
   end
 
   # GET /plates/1/edit
@@ -21,7 +22,7 @@ class PlatesController < ApplicationController
 
   # POST /plates or /plates.json
   def create
-    @plate = Plate.new(plate_params)
+    @plate = current_user.plates.build(plate_params)
 
     respond_to do |format|
       if @plate.save
@@ -65,6 +66,6 @@ class PlatesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def plate_params
-      params.require(:plate).permit(:name)
+      params.require(:plate).permit(:name, :image)
     end
 end
